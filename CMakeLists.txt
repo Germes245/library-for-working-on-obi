@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project(working-with-files-with-strings)
+project(obi)
 
 set(CMAKE_C_STANDARD 11)
 
@@ -12,15 +12,15 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 file(GLOB SOURCE_FILES "src/*.c")
 
 # Создаём разделяемую (динамическую) библиотеку
-add_library(working-with-files-with-strings SHARED ${SOURCE_FILES})
-target_include_directories(working-with-files-with-strings PRIVATE include)
+add_library(obi SHARED ${SOURCE_FILES})
+target_include_directories(obi PRIVATE include)
 
 include(GNUInstallDirs)
 
 # Устанавливаем библиотеку и заголовки
-install(TARGETS working-with-files-with-strings
+install(TARGETS obi
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
-install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/working-with-files-with-strings)
+install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/obi)
