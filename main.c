@@ -16,35 +16,29 @@ void print_binary(uint8_t n) {
 }
 
 uint8_t write_pixels(array_of_pixels array, char* name_of_file){
-    //FILE* file = fopen(name_of_file, "wb");
-    //if(file == NULL) return 1;
-    //fwrite(&array.length, sizeof(uint32_t), 1, file);
-    for (size_t i = 0; i < array.length; i++) {
-        uint8_t number_to_load = 0;
-        for (size_t j = 0; j < 8; j++) {
-            //printf("%d ", array.array[i*8 + j]);
-            printf("%d\n", array.array[i*8 + j] ? 1 : 0);
-            //printf("number to load %b\n", number_to_load);
-            print_binary(number_to_load);
-            putchar('\n');
-            number_to_load <<= 1;
-            number_to_load += array.array[i*8 + j] ? 1 : 0;
-        }
-        //printf("shya\n");
-        putchar('\n');
-        printf("number to load ");
-        print_binary(number_to_load);
-        putchar('\n');
+    uint8_t number_to_load = 0;
+    for (size_t j = 0; j < 8; j++) {
+        //printf("%d ", array.array[i*8 + j]);
+        printf("%d", array.array[j] ? 1 : 0);
+        
     }
-    //fclose(file);
+    printf("\n\n");
+    print_binary(number_to_load);
     return 0;
+}
+
+uint8_t calculate_from_8boolean_values_to_one_bite(uint8_t array[]){
+    uint8_t one_bite_value = 0;
+    uint8_t power_of_two = 1;
+    for(uint8_t i = 7; i >= 0; i--){
+        one_bite_value += power_of_two * (array[i] ? 1 : 0);
+        power_of_two *= 2;
+    }
+    return one_bite_value;
 }
 
 int main(){
     array_of_pixels array;
-    //size_t number = 1;
-    //number <<= 2;
-    //printf("%d\n", number);
     uint8_t array2[] = {0, 255, 255, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255};
     array.array = array2;
     array.length = sizeof(array2)/8;
