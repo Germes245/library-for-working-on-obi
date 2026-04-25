@@ -26,25 +26,24 @@ uint8_t calculate_from_8boolean_values_to_one_bite(uint8_t array[]){
     return one_bite_value;
 }
 
-uint8_t write_pixels(array_of_pixels array, char* name_of_file){
-    //uint8_t number_to_load = 0;
-    for (size_t i = 0; i < array.length; i+=8) {
-        for (uint8_t j = 0; j < 8; j++) {
-            printf("%d ", array.array[i+j]);
-        }
-        printf("\n%b\n", calculate_from_8boolean_values_to_one_bite(array.array + i));
+uint8_t write_pixels(array_of_pixels array, char* name_of_file, uint32_t width){//, char* name_of_file
+    FILE *file = fopen(name_of_file, "wb");
+    width /= 8;
+    fwrite(&width, sizeof(uint32_t), 1, file);
+    array.length -= array.length % 8;
+    for(size_t i = 0; i < array.length; i+=8){
+        uint8_t bite_from_8boolean_values = calculate_from_8boolean_values_to_one_bite(array.array + i);
+        fwrite(&bite_from_8boolean_values, 1, 1, file);
     }
-    //printf("\n\n");
-    //print_binary(number_to_load);
+    fclose(file);
     return 0;
 }
 
 int main(){
     array_of_pixels array;
-    uint8_t array2[] = {0, 255, 255, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255};
-    printf("%b\n", calculate_from_8boolean_values_to_one_bite(array2));
-    /*array.array = array2;
-    array.length = sizeof(array2)/8;
-    write_pixels(array, "test.obi");*/
+    uint8_t array2[] = {1, 255, 255, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0};
+    array.array = array2;
+    array.length = sizeof(array2);
+    printf("%b\n", write_pixels(array, "test.obi", 8));
     return 0;
 }
